@@ -1,18 +1,15 @@
 console.log('connected')
 
-function testClick() {
-  console.log('click');
-}
-
-// Elements
-var imgOnCanvas = document.getElementById('imgOnCanvas');
+// Image form
 var uploadBtn   = document.getElementById('submit');
-
+var imgInput    = document.getElementById('imgInput');
+// Text form
 var textBtn     = document.getElementById('textBtn');
-var assetText   = document.getElementById('assetText');
-
-// Canvas
+// Elements on canvas
 var block       = document.getElementById('block');
+var assetText = document.createElement('div');
+
+imgInput.file = null;
 
 // Get CSS values
 function getCss(elem, property) {
@@ -28,7 +25,7 @@ function clearCanvas() {
 
 // Read selected image in input element
 function readImg(evt) {
-  var file = imgOnCanvas.files[0];
+  var file = imgInput.files[0];
   if (file) {
     if (file.type==='image/png' || file.type==='image/jpeg') {
       getAsImage(file);
@@ -80,20 +77,29 @@ function uploads(data) {
 }
 
 function addText(text) {
-  var canvasText = document.getElementById('inputText');
-  assetText.innerHTML = canvasText.value;
+  assetText.setAttribute('id', 'assetText');
+  assetText.innerHTML = text.value;
+  block.insertBefore(assetText, null);
 }
 
-// Add submit button event
-uploadBtn
-.addEventListener('click', function (e) {
-  uploads(imgOnCanvas.files[0]);
-  // return TypeError: Cannot read property 'filename' of undefined; but able to upload
-  // e.preventDefault();
-})
+  // Add submit button event
+  uploadBtn.addEventListener('click', function (e) {
+    uploads(imgInput.files[0]);
+    // return TypeError: Cannot read property 'filename' of undefined; but able to upload
+    // e.preventDefault();
+  })
+  // Add input text on the canvas
+  textBtn.addEventListener('click', function (e) {
+    addText(inputText);
+    e.preventDefault();
+  })
+/*
 
-// Add input text on the canvas
-textBtn
-.addEventListener('click', function (e) {
-  addText(inputText.value);
-})
+// initial states
+function init() {
+  clearCanvas();
+  reader = new FileReader();
+}
+
+init();
+*/
