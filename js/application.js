@@ -5,11 +5,14 @@ function testClick() {
 }
 
 // Elements
-var imgInput = document.getElementById('input');
-var uploadBtn = document.getElementById('submit');
-var textBtn = document.getElementById('addText');
-var block = document.getElementById('block');
-var assetText = document.getElementById('assetText');
+var imgOnCanvas = document.getElementById('imgOnCanvas');
+var uploadBtn   = document.getElementById('submit');
+
+var textBtn     = document.getElementById('textBtn');
+var assetText   = document.getElementById('assetText');
+
+// Canvas
+var block       = document.getElementById('block');
 
 // Get CSS values
 function getCss(elem, property) {
@@ -25,7 +28,7 @@ function clearCanvas() {
 
 // Read selected image in input element
 function readImg(evt) {
-  var file = imgInput.files[0];
+  var file = imgOnCanvas.files[0];
   if (file) {
     if (file.type==='image/png' || file.type==='image/jpeg') {
       getAsImage(file);
@@ -76,22 +79,21 @@ function uploads(data) {
   xhttp.send(data);
 }
 
-function addText() {
-  console.log(assetText.value);
-  var text = document.createElement('div');
-  text.innerHTML = assetText.value;
-  block.appendChild(text);
+function addText(text) {
+  var canvasText = document.getElementById('inputText');
+  assetText.innerHTML = canvasText.value;
 }
 
 // Add submit button event
 uploadBtn
 .addEventListener('click', function (e) {
-  uploads(imgInput.files[0]);
+  uploads(imgOnCanvas.files[0]);
   // return TypeError: Cannot read property 'filename' of undefined; but able to upload
   // e.preventDefault();
 })
 
+// Add input text on the canvas
 textBtn
 .addEventListener('click', function (e) {
-  addText(e);
+  addText(inputText.value);
 })

@@ -24,7 +24,9 @@ html, body {
 
 #assetText {
   font-size: 24px;
-  width: 100%;
+}
+.assets .text #inputText {
+    width: 100%;
 }
 
 .assets .text, .assets .image {
