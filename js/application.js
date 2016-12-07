@@ -82,6 +82,7 @@ function addText(text) {
   block.insertBefore(assetText, null);
 }
 
+function bindBtn() {
   // Add submit button event
   uploadBtn.addEventListener('click', function (e) {
     uploads(imgInput.files[0]);
@@ -93,13 +94,14 @@ function addText(text) {
     addText(inputText);
     e.preventDefault();
   })
-/*
+}
 
 // initial states
 function init() {
   clearCanvas();
   reader = new FileReader();
+  bindBtn();
 }
 
 init();
-*/
+
