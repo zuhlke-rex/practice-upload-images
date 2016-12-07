@@ -9,6 +9,7 @@ var imgInput = document.getElementById('input');
 var uploadBtn = document.getElementById('submit');
 var textBtn = document.getElementById('addText');
 var block = document.getElementById('block');
+var assetText = document.getElementById('assetText');
 
 // Get CSS values
 function getCss(elem, property) {
@@ -75,8 +76,11 @@ function uploads(data) {
   xhttp.send(data);
 }
 
-function addText(input) {
-
+function addText() {
+  console.log(assetText.value);
+  var text = document.createElement('div');
+  text.innerHTML = assetText.value;
+  block.appendChild(text);
 }
 
 // Add submit button event
@@ -88,6 +92,6 @@ uploadBtn
 })
 
 textBtn
-.addEventListener('click', function () {
-  testClick();
+.addEventListener('click', function (e) {
+  addText(e);
 })
