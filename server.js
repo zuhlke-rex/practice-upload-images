@@ -41,7 +41,7 @@ let upload = multer( {
 
 // route for file upload
 app.post( '/uploads', ( req, res ) => {
-  console.log('load');
+  console.log('run');
   upload( req, res, err => {
     if ( err ) {
       console.log( err )

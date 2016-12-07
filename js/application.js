@@ -4,6 +4,7 @@ function testClick() {
   console.log('click');
 }
 
+// Elements
 var imgInput = document.getElementById('input');
 var uploadBtn = document.getElementById('submit');
 var textBtn = document.getElementById('addText');
@@ -14,8 +15,7 @@ function getCss(elem, property) {
   return window.getComputedStyle(elem, null).getPropertyValue(property);
 }
 
-
-// To clear canvas
+// Clear canvas
 function clearCanvas() {
   while (block.firstChild) {
       block.removeChild(block.firstChild);
@@ -24,7 +24,7 @@ function clearCanvas() {
 
 // Read selected image in input element
 function readImg(evt) {
-  var file = document.getElementById('input').files[0];
+  var file = imgInput.files[0];
   if (file) {
     if (file.type==='image/png' || file.type==='image/jpeg') {
       getAsImage(file);
@@ -34,14 +34,14 @@ function readImg(evt) {
     }
   }
 }
-
+// Allow FileReader to read image
 function getAsImage(readFile) {
   var reader = new FileReader();
   reader.readAsDataURL(readFile);
   reader.onload = addImg;
   // console.log(reader);
 }
-
+// Show selected image on canvas
 function addImg(imgsrc) {
   clearCanvas();
   var img = document.createElement('img');
@@ -52,16 +52,27 @@ function addImg(imgsrc) {
   block.appendChild(img);
 }
 
-function uploads() {
+// Upload Ajax
+function uploads(data) {
+
+  // Set new ajax request
   var xhttp = new XMLHttpRequest();
+
   xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-     file = this.responseText;
-    }
+      if (xhttp.readyState == XMLHttpRequest.DONE ) {
+        if (xhttp.status == 200) {
+          result.innerHTML = this.responseText;
+        }
+        else if (xhttp.status == 400) {
+          console.log('There was an error 400');
+        }
+        else {
+          console.log('something else other than 200 was returned');
+        }
+      }
   };
-  // request config
-  xhttp.open("POST", getAsImage(file), true);
-  xhttp.send();
+  xhttp.open('POST', '/uploads', true);
+  xhttp.send(data);
 }
 
 function addText(input) {
@@ -70,8 +81,10 @@ function addText(input) {
 
 // Add submit button event
 uploadBtn
-.addEventListener('click', function () {
-  testClick();
+.addEventListener('click', function (e) {
+  uploads(imgInput.files[0]);
+  // return TypeError: Cannot read property 'filename' of undefined; but able to upload
+  // e.preventDefault();
 })
 
 textBtn
