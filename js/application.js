@@ -3,6 +3,7 @@ console.log('connected')
 // Image form
 var uploadBtn    = document.getElementById('submit');
 var imgInput     = document.getElementById('imgInput');
+
 // Text form
 var addTextBtn   = document.getElementById('addTextBtn');
 var clearTextBtn = document.getElementById('clearTextBtn');
@@ -46,7 +47,7 @@ function getAsImage(readFile) {
   var reader = new FileReader();
   reader.readAsDataURL(readFile);
   reader.onload = addImg;
-  // console.log(reader);
+  console.log(reader);
 }
 // Show selected image on canvas
 function addImg(imgsrc) {
@@ -71,7 +72,6 @@ function uploads(data) {
   xhttp.onreadystatechange = function() {
       if (xhttp.readyState == XMLHttpRequest.DONE ) {
         if (this.readyState = 4 && xhttp.status == 200) {
-          console.log(this.responseText);
         }
         else if (xhttp.status == 400) {
           console.log('There was an error 400');
@@ -132,8 +132,6 @@ function bindBtn() {
   // Add submit button event
   uploadBtn.addEventListener('click', function (e) {
     uploads(imgInput.files[0]);
-    // return TypeError: Cannot read property 'filename' of undefined; but able to upload
-    // e.preventDefault();
   })
   // Add input text on the canvas
   addTextBtn.addEventListener('click', function (e) {

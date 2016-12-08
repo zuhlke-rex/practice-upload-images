@@ -47,9 +47,11 @@ app.post( '/uploads', ( req, res ) => {
       console.log( err )
       res.status(400).json( {message: err} );
     } else {
-      res.status(200).json( {
-        file: req.protocol + '://' + req.get('host') + '/images/' + req.file.filename
-      } )
+      res.redirect('/');
+// for debugging
+//  json({
+//    file: req.protocol + '://' + req.get('host') + '/images/' + req.file.filename
+//  })
     }
   })
 })
