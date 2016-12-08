@@ -96,8 +96,9 @@ function uploads(data) {
     var xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == XMLHttpRequest.DONE ) {
-          if (this.readyState = 4 && xhttp.status == 200) {
+        if (xhttp.readyState === XMLHttpRequest.DONE ) {
+          if (this.readyState == 4 && xhttp.status == 200) {
+            console.log('done');
           }
           else if (xhttp.status == 400) {
             console.log('There was an error 400');
@@ -117,7 +118,7 @@ function getImg() {
   // Set new ajax request
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-      if (xhttp.readyState == XMLHttpRequest.DONE ) {
+      if (xhttp.readyState === XMLHttpRequest.DONE ) {
         if (xhttp.status == 200) {
           appendImg(JSON.parse(this.responseText));
         }
