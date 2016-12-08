@@ -2,7 +2,7 @@
 
 You are require to build a single page application that allows user to add text and image into canvas. Below are the basic requirements for the application:
 
-DONE - user can *upload image* to images list
+- user can *upload image* to images list
 - user can *add, edit and remove image and text* to the canvas
 
 _Note: the canvas element type is plain HTML `<div>`, not `<canvas>`_
