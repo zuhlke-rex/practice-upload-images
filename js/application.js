@@ -64,14 +64,14 @@ function addImg(imgsrc) {
 
 // Post command - Upload image
 function uploads(data) {
-
+  console.log(data);
   // Set new ajax request
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange = function() {
       if (xhttp.readyState == XMLHttpRequest.DONE ) {
-        if (xhttp.status == 200) {
-          result.innerHTML = this.responseText;
+        if (this.readyState = 4 && xhttp.status == 200) {
+          console.log(this.responseText);
         }
         else if (xhttp.status == 400) {
           console.log('There was an error 400');
@@ -81,8 +81,40 @@ function uploads(data) {
         }
       }
   };
+
   xhttp.open('POST', '/uploads', true);
   xhttp.send(data);
+}
+
+// Get command - Image list
+function getImg() {
+
+  // Set new ajax request
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() {
+      if (xhttp.readyState == XMLHttpRequest.DONE ) {
+        if (xhttp.status == 200) {
+          var imgArr = JSON.parse(this.responseText);
+          var list = document.getElementsByTagName('ul');
+          for (i = 0; i < imgArr.length; i++) {
+            var li = document.createElement('li');
+            var imgItem = document.createElement('img');
+            imgItem.setAttribute('src', imgArr[i]);
+            li.appendChild(imgItem);
+            list[0].appendChild(li);
+          }
+        }
+        else if (xhttp.status == 400) {
+          console.log('There was an error 400');
+        }
+        else {
+          console.log('something else other than 200 was returned');
+        }
+      }
+  };
+  xhttp.open('GET', '/images', true);
+  xhttp.send();
 }
 
 function addText(text) {
@@ -120,7 +152,7 @@ function init() {
   clearCanvas();
   reader = new FileReader();
   bindBtn();
+  getImg();
 }
 
 init();
-
