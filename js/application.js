@@ -1,25 +1,30 @@
 console.log('connected')
 
 // Image form
-var uploadBtn   = document.getElementById('submit');
-var imgInput    = document.getElementById('imgInput');
+var uploadBtn    = document.getElementById('submit');
+var imgInput     = document.getElementById('imgInput');
 // Text form
-var textBtn     = document.getElementById('textBtn');
+var addTextBtn   = document.getElementById('addTextBtn');
+var clearTextBtn = document.getElementById('clearTextBtn');
 // Elements on canvas
-var block       = document.getElementById('block');
-var assetText = document.createElement('div');
+var block        = document.getElementById('block');
+var assetText    = document.createElement('div');
 
 imgInput.file = null;
 
-// Get CSS values
+// Get CSS values from elements
 function getCss(elem, property) {
   return window.getComputedStyle(elem, null).getPropertyValue(property);
 }
 
 // Clear canvas
 function clearCanvas() {
-  while (block.firstChild) {
+  if (block.firstChild) {
+    if (block.firstChild !== assetText) {
       block.removeChild(block.firstChild);
+    } else {
+      block.removeChild(block.lastChild);
+    }
   }
 }
 
@@ -27,11 +32,12 @@ function clearCanvas() {
 function readImg(evt) {
   var file = imgInput.files[0];
   if (file) {
+    // Confirm file type before upload
     if (file.type==='image/png' || file.type==='image/jpeg') {
       getAsImage(file);
     } else {
       clearCanvas();
-      alert('Please select an image');
+      alert('File type not supported. Please select an image');
     }
   }
 }
@@ -46,14 +52,17 @@ function getAsImage(readFile) {
 function addImg(imgsrc) {
   clearCanvas();
   var img = document.createElement('img');
-  img.setAttribute('src', imgsrc.target.result);
+  if (img) {
+    img.setAttribute('id', 'imgOnCanvas');
+    img.setAttribute('src', imgsrc.target.result);
+  }
   // This would fit 100% on block, regardless distortion
   img.style['width'] = getCss(block, 'width');
   img.style['height'] = getCss(block, 'height');
-  block.appendChild(img);
+  block.insertBefore(img, null);
 }
 
-// Upload Ajax
+// Post command - Upload image
 function uploads(data) {
 
   // Set new ajax request
@@ -82,6 +91,11 @@ function addText(text) {
   block.insertBefore(assetText, null);
 }
 
+function clearText() {
+  assetText.innerHTML = null;
+  inputText.value = null;
+}
+
 function bindBtn() {
   // Add submit button event
   uploadBtn.addEventListener('click', function (e) {
@@ -90,8 +104,13 @@ function bindBtn() {
     // e.preventDefault();
   })
   // Add input text on the canvas
-  textBtn.addEventListener('click', function (e) {
+  addTextBtn.addEventListener('click', function (e) {
     addText(inputText);
+    e.preventDefault();
+  })
+  // Add input text on the canvas
+  clearTextBtn.addEventListener('click', function (e) {
+    clearText();
     e.preventDefault();
   })
 }
